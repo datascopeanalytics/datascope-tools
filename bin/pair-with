@@ -1,0 +1,75 @@
+#!/usr/bin/env python
+# -*- mode: python -*-
+
+"""Modify a repository's local .hg/hgrc file to alter the ui.username
+value for the current project. This looks up email addresses in
+~/.pair-with.ini whenever possible and otherwise stores new
+username/email address pairs in this file for future use.
+"""
+
+import argparse
+import sys
+import os
+import ConfigParser
+
+# setup the option parser
+parser = argparse.ArgumentParser(
+#    usage="%(prog)s [options] [username] ...",
+    description=__doc__,
+)
+parser.add_argument('username', type=str, nargs='*', help="usernames")
+args = parser.parse_args()
+
+# for each username specified, make sure we have an email address for
+# them in our ~/.pair-with.ini. Otherwise, add their username and email to the ~/.pair-with.ini
+config_filename = os.path.expanduser(os.path.join("~", ".pair-with.ini"))
+config_parser = ConfigParser.RawConfigParser()
+config_parser.read(config_filename)
+changed = False
+if not config_parser.has_section('email'):
+    config_parser.add_section('email')
+    changed = True
+emails = []
+for username in args.username:
+    try:
+        email = config_parser.get('email', username)
+    except ConfigParser.NoOptionError:
+        email = raw_input("No email for username '%s' in %s.\nEnter email: " % (
+            username, config_filename
+        ))
+        config_parser.set('email', username, email)
+        changed = True
+    emails.append(email)
+if changed:
+    with open(config_filename, 'w') as stream:
+        config_parser.write(stream)
+
+# get the user's default ui.username from ~/.hgrc
+# http://www.selenic.com/mercurial/hgrc.5.html#ui
+config_parser = ConfigParser.RawConfigParser()
+config_parser.read(os.path.join(os.path.expanduser("~"), ".hgrc"))
+emails.append(config_parser.get('ui', 'username'))
+
+# locate the /path/to/.hg/hgrc configuration file on which you're
+# currently working
+d = os.getcwd()
+hgrc_filename = ''
+while d:
+    filename = os.path.join(d, '.hg', 'hgrc')
+    if os.path.exists(filename):
+        hgrc_filename = filename
+        break
+    d = os.path.sep.join(d.split(os.path.sep)[:-1])
+if not hgrc_filename:
+    sys.stderr.write("\033[91mERROR: No mercurial repository found.\n")
+    sys.exit(1)
+
+# edit the hgrc_filename to include both the default user and the
+# users specified on the command line
+config_parser = ConfigParser.RawConfigParser()
+config_parser.read(hgrc_filename)
+if not config_parser.has_section('ui'):
+    config_parser.add_section('ui')
+config_parser.set('ui', 'username', ', '.join(emails))
+with open(hgrc_filename, 'w') as stream:
+    config_parser.write(stream)
