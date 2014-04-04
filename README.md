@@ -12,5 +12,5 @@ This is somewhat inspired by
 * `pair-with`: simple script to manipulate `.hg/hgrc` files when
   pairing with other people
 
-* `purge`: simple script to remove junk files that commonly occur when
-  we're writing code or experimenting with scripts.
+* `decrapify`: simple script to remove junk files that commonly occur when
+  we're writing code or experimenting with scripts
