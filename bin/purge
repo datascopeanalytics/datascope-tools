@@ -1,0 +1,79 @@
+#!/usr/bin/env python
+# -*- mode: python -*-
+
+"""Remove all junk files. Specifically, this removes everything matching any of the following patterns: 
+"""
+
+# this is the set of all filenames that can safely be trashed
+JUNK_FILE_PATTERNS = [
+    "*~",
+    "*.pyc",
+    "*.fig.bak",
+    "*.bib.bak",
+    "*.blg",
+    "*.end",
+    "*.dvi",
+    "*.aux",
+    "*.bbl",
+    "*.log",
+    "*.toc",
+    "*.nav",
+    "*.out",
+    "*.snm",
+    "*.o",
+    "*.orig",
+]
+for c in range(ord('a'), ord('z')+1):
+    JUNK_FILE_PATTERNS.append(chr(c)*2)
+__doc__ += ' '.join(JUNK_FILE_PATTERNS)
+
+import argparse
+import sys
+import os
+import fnmatch
+
+# setup the option parser
+parser = argparse.ArgumentParser(
+    description=__doc__,
+)
+parser.add_argument(
+    '--max-depth',
+    type=int,
+    default=sys.maxint,
+    help="Maximum recursion depth. Current working directory has depth 0",
+)
+parser.add_argument(
+    '-v', '--verbose',
+    action='store_true',
+    help="print removed files",
+)
+parser.add_argument(
+    '--include-hidden-directories',
+    action='store_true',
+    help="Also traverse hidden directories to search for junk files",
+)
+args = parser.parse_args()
+
+cwd = os.getcwd()
+def get_depth(root):
+    relpath = os.path.relpath(root, cwd)
+    return relpath.count(os.sep)
+
+def remove_junk_files(root, filenames):
+    for pattern in JUNK_FILE_PATTERNS:
+        for filename in filenames:
+            if fnmatch.fnmatch(filename, pattern):
+                junk_filename = os.path.join(root, filename)
+                os.remove(junk_filename)
+                if args.verbose:
+                    print("removed %s" % junk_filename)
+
+for root, dirs, filenames in os.walk(cwd):
+    depth = get_depth(root)
+    if depth < args.max_depth:
+        remove_junk_files(root, filenames)
+
+    # omit hidden directories from the traversal
+    # http://stackoverflow.com/a/13454267/564709
+    dirs[:] = [d for d in dirs if not d.startswith('.')]
+            
