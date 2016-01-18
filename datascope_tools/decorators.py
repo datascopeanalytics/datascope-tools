@@ -33,7 +33,6 @@ class cache(object):
 
             filepath = self.create_filename(function, *args, **kwargs)
 
-            print >> sys.stderr, self.nicename, self.is_fresh(filepath)
             if self.is_fresh(filepath):
 
                 message = 'Reading result for `%s` from cache' % self.nicename
@@ -70,7 +69,6 @@ class cache(object):
         if self.in_cache(filepath):
             last_modified = os.path.getmtime(filepath)
             age = time.time() - last_modified
-            print >> sys.stderr, age
             return age <= self.expire_after
 
     def create_filename(self, function, *args, **kwargs):
