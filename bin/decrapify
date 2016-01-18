@@ -15,7 +15,6 @@ JUNK_FILE_PATTERNS = [
     "*.dvi",
     "*.aux",
     "*.bbl",
-    "*.log",
     "*.toc",
     "*.nav",
     "*.out",
