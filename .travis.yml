@@ -6,5 +6,5 @@ install:
   - pip install -r requirements-dev.txt
 
 script:
-  - nosetests --with-coverage --cover-package=datascope_tools
+  - nosetests --with-coverage --cover-package=datascope_tools/
   - pep8 datascope_tools/
