@@ -4,9 +4,5 @@ dependencies:
 
 test:
   override:
-    - nosetests --with-coverage --cover-package=datascope_tools --with-xunit --xunit-file=tests/nosetests.xml
+    - nosetests --with-coverage --cover-package=datascope_tools --with-xunit --xunit-file=$CIRCLE_TEST_REPORTS/nose/nosetests.xml
     - pep8 datascope_tools/
-
-machine:
-  environment:
-    CIRCLE_TEST_REPORTS: tests
