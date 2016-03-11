@@ -1,0 +1,13 @@
+language: python
+  python:
+    - "2.7"
+
+install:
+  - pip install -r requirements-dev.txt
+
+script:
+  - nosetests --with-coverage --cover-package=datascope_tools
+  - pep8 datascope_tools/
+ 
+after_success:
+  - coveralls
