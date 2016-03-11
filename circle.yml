@@ -4,7 +4,7 @@ dependencies:
 
 test:
   override:
-    - nosetests --with-coverage --cover-package=datascope_tools --with-xunit --zunit-file=tests/nosetests.xml
+    - nosetests --with-coverage --cover-package=datascope_tools --with-xunit --xunit-file=tests/nosetests.xml
     - pep8 datascope_tools/
 
 machine:
