@@ -6,3 +6,7 @@ test:
   override:
     - nosetests --with-coverage --cover-package=datascope_tools --with-xunit
     - pep8 datascope_tools/
+
+machine:
+  environment:
+    CIRCLE_TEST_REPORTS: tests
