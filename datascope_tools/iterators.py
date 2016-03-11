@@ -2,7 +2,7 @@ import itertools
 
 
 def rank_sorted(sequence, start=1, key=None, reverse=True):
-    """A combination or `enumerate` and `sort` iterators that also deals
+    """A combination of `enumerate` and `sort` iterators that also deals
     with tied ranks.
 
     """
