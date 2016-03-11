@@ -8,4 +8,6 @@ script:
 - pep8 datascope_tools/
 notifications:
   slack:
+    on_success: change
+    on_failure: change
     secure: Qd+ODEQVD4mr1D9cSA/oMJ8LYO/GtjuqvHiAlGNeI0nZE+I0c9FCjKdDPDeeJjckHDtbYtxme18RhVOb7Ete9PxVJV1IRqKqdbC4/Zw51TUo1e1EUV+io45NQzPHiSf95RkRtzQvbjb0L8H+exmy8LkH87BWhrWFxZjiS9OnE8Y=
