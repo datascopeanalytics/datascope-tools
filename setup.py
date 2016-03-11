@@ -15,7 +15,7 @@ github_url='https://github.com/datascopeanalytics/datascope-tools'
 
 # read in the dependencies from the virtualenv requirements file
 dependencies = []
-filename = "REQUIREMENTS"
+filename = "requirements.txt"
 with open(filename, 'r') as stream:
     for line in stream:
         package = line.strip().split('#')[0]
