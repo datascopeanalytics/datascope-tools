@@ -1,10 +1,11 @@
 language: python
 python:
-  - "2.7"
-
+- '2.7'
 install:
-  - pip install -r requirements-dev.txt
-
+- pip install -r requirements-dev.txt
 script:
-  - nosetests --with-coverage --cover-package=datascope_tools/
-  - pep8 datascope_tools/
+- nosetests --with-coverage --cover-package=datascope_tools/
+- pep8 datascope_tools/
+notifications:
+  slack:
+    secure: Qd+ODEQVD4mr1D9cSA/oMJ8LYO/GtjuqvHiAlGNeI0nZE+I0c9FCjKdDPDeeJjckHDtbYtxme18RhVOb7Ete9PxVJV1IRqKqdbC4/Zw51TUo1e1EUV+io45NQzPHiSf95RkRtzQvbjb0L8H+exmy8LkH87BWhrWFxZjiS9OnE8Y=
