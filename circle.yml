@@ -1,0 +1,8 @@
+dependencies:
+  pre:
+    - pip install -r requirements.txt
+
+test:
+  override:
+    - nosetests --with-coverage --cover-package=datascope_tools --with-xunit
+    - pep8 datascope_tools/
