@@ -31,4 +31,3 @@ def test_rank_sorted():
     # now put in some ties
     bunga = [95, 95, 90, 85]
     assert list(rank_sorted(bunga)) == [(1, 95), (1, 95), (3, 90), (4, 85)]
-    
